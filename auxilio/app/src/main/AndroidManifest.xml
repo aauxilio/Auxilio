@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="Parent" android:name=".ParentForm"></activity>
+            android:label="Parent" android:name=".PersonForm"></activity>
     </application>
 
 </manifest>
