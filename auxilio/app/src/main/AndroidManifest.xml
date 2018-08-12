@@ -27,7 +27,8 @@
             android:name=".PersonForm"
             android:label="Parent" />
         <activity android:name=".ChildInformationActivity" />
-        <activity android:name=".DocuViewActivity"></activity>
+        <activity android:name=".DocuViewActivity" />
+
         <provider
             android:name=".LegacyCompatFileProvider"
             android:authorities="com.commonsware.android.cp.v4file"
@@ -35,8 +36,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".MainLobbyActivity"></activity>
     </application>
 
 </manifest>
