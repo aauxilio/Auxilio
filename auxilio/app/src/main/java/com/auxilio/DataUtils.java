@@ -73,7 +73,7 @@ public class DataUtils {
                 .address("123 El Camino Real, Los Gatos 90901")
                 .firstName("Benito")
                 .lastName("Sanchez")
-                .phoneNumber("(831) 898 4932")
+                .phoneNumber("+18317741837")
                 .build();
 
         List<Person> relatives = new ArrayList<>();

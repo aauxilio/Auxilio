@@ -45,7 +45,7 @@ public class DocuViewActivity extends AppCompatActivity {
     private void startRetrieveDoc() {
         affidivitApplication = DataUtils.getAffidivitApplication().build();
 
-        File f=new File(getFilesDir(), "affidavitFormTemplate.pdf");
+        File f = new File(getFilesDir(), "affidavitFormTemplate.pdf");
 
         if (!f.exists()) {
             AssetManager assets=getAssets();
@@ -86,7 +86,6 @@ public class DocuViewActivity extends AppCompatActivity {
         }
 
         document.add(Chunk.NEWLINE);
-        document.add(Chunk.NEWLINE);
 
         document.add(new Paragraph("I, " + person.getFirstName() + " " + person.getLastName() + " hereby declare to take " +
                 "on the full responsibility, guardianship and support for "
@@ -111,9 +110,6 @@ public class DocuViewActivity extends AppCompatActivity {
         document.add(Chunk.NEWLINE);
 
         document.add(new Paragraph(person.getFirstName() + " " + person.getLastName()));
-        document.add(new Paragraph("(Print Name)"));
-        document.add(Chunk.NEWLINE);
-        document.add(Chunk.NEWLINE);
 
         document.add(new Paragraph("State of California"));
         document.add(new Paragraph("County of Monterey"));
@@ -124,6 +120,7 @@ public class DocuViewActivity extends AppCompatActivity {
         ChildInformation childInformation = affidivitApplication.getChildInformation();
 
         document.add(Chunk.NEWLINE);
+        document.add(new Paragraph("Child"));
         document.add(new Paragraph("Full Name: " + childInformation.getFirstName() + " " + childInformation.getLastName()));
         document.add(new Paragraph("DOB: " + childInformation.getDob()));
     }
@@ -137,13 +134,16 @@ public class DocuViewActivity extends AppCompatActivity {
 
         document.add(Chunk.NEWLINE);
         document.add(new Paragraph("Parent"));
-            document.add(new Paragraph("Full Name: " + parent.getFirstName() + " " + parent.getLastName()));
+        document.add(new Paragraph("Full Name: " + parent.getFirstName() + " " + parent.getLastName()));
         document.add(new Paragraph("Phone Number: " + parent.getPhoneNumber()));
         document.add(new Paragraph("Address: " + parent.getAddress()));
     }
 
     private void addRelatives(Document document) throws DocumentException {
+
         List<Person> relatives = affidivitApplication.getRelatives();
+        document.add(Chunk.NEWLINE);
+        document.add(new Paragraph("Guardian(s)"));
         for (Person person : relatives) {
             addRelative(document, person);
         }
@@ -160,6 +160,7 @@ public class DocuViewActivity extends AppCompatActivity {
         document.add(new Paragraph("Full Name: " + person.getFirstName() + " " + person.getLastName()));
         document.add(new Paragraph("Phone Number: " + person.getPhoneNumber()));
         document.add(new Paragraph("Address: " + person.getAddress()));
+        document.add(Chunk.NEWLINE);
     }
 
     private void viewPdf(File f) {

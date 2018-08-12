@@ -1,9 +1,11 @@
 package com.auxilio;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // new Requests().execute();
         Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -64,8 +67,11 @@ public class LoginActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
     }
 
+
     private boolean isPasswordValid(String password) {
         return true;
     }
+
+
 }
 

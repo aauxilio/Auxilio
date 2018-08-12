@@ -14,7 +14,8 @@
         android:layout_weight="0"
         android:background="@drawable/ic_launcher_background"
         android:backgroundTint="@android:color/holo_green_dark"
-        android:text="View Affidavit" />
+        android:text="Ver Affidavit"
+        android:textSize="20dp"/>
 
     <Button
         android:id="@+id/notifi_relatives"
@@ -22,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@android:color/holo_red_dark"
-        android:text="Notify Relatives" />
-
+        android:text="Notificar a Familiares"
+        android:textSize="20dp"/>
 </LinearLayout>
