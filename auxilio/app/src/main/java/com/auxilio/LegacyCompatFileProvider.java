@@ -1,4 +1,4 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
 import android.database.Cursor;
 import android.net.Uri;

@@ -1,8 +1,8 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
-import com.auxilio.auxilio.data.AffidivitApplication;
-import com.auxilio.auxilio.data.ChildInformation;
-import com.auxilio.auxilio.data.Person;
+import com.auxilio.data.AffidivitApplication;
+import com.auxilio.data.ChildInformation;
+import com.auxilio.data.Person;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.auxilio.auxilio.MainLobbyActivity">
+    tools:context="com.auxilio.MainLobbyActivity">
 
     <Button
         android:id="@+id/notifi_relatives"

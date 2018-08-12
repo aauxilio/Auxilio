@@ -1,4 +1,4 @@
-package com.auxilio.auxilio.data;
+package com.auxilio.data;
 
 import android.support.annotation.Nullable;
 

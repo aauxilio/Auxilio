@@ -1,22 +1,34 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.auxilio.auxilio.data.AffidivitApplication;
-import com.auxilio.auxilio.data.ChildInformation;
-import com.auxilio.auxilio.data.Person;
+import com.auxilio.data.AffidivitApplication;
+import com.auxilio.data.ChildInformation;
+import com.auxilio.data.Person;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,18 +40,45 @@ import java.util.List;
 
 public class DocuViewActivity extends AppCompatActivity {
 
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private AffidivitApplication affidivitApplication;
+    private StorageReference storageReference;
+    private DatabaseReference mDatabase;
 
     private static final String AUTHORITY="com.commonsware.android.cp.v4file";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docu_view);
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            firebaseAuth.signInAnonymously().addOnSuccessListener(
+                    this, new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            startRetrieveDoc();
+                        }
+                    }
+            ).addOnFailureListener(this, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DoCU: ", "SIgn in Failure");
+                }
+            });
+        } else {
+            startRetrieveDoc();
+        }
+    }
+
+    private void startRetrieveDoc() {
         affidivitApplication = DataUtils.getAffidivitApplication().build();
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
+
+
 
         File f=new File(getFilesDir(), "affidavitFormTemplate.pdf");
 
@@ -159,6 +198,29 @@ public class DocuViewActivity extends AppCompatActivity {
     }
 
     private void viewPdf(File f) {
+
+        Uri file = Uri.fromFile(f);
+
+
+        String docName = Constants.STORAGE_PATH_UPLOADS + System.currentTimeMillis() + ".pdf";
+        StorageReference doc = storageReference.child(docName);
+        StorageReference docRef = storageReference.child("docs/" + doc);
+
+
+        docRef.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "File saved", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("ERRORStoringFile: ", e.getMessage());
+                    }
+                });
+
         Intent i=
                 new Intent(Intent.ACTION_VIEW,
                         FileProvider.getUriForFile(this, AUTHORITY, f));

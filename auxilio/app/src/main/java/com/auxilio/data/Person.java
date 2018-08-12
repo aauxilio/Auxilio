@@ -1,4 +1,4 @@
-package com.auxilio.auxilio.data;
+package com.auxilio.data;
 
 /**
  * Model to hold values for Person on Application.
