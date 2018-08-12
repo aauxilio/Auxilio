@@ -137,7 +137,7 @@ public class DocuViewActivity extends AppCompatActivity {
 
         document.add(Chunk.NEWLINE);
         document.add(new Paragraph("Parent"));
-            document.add(new Paragraph("Full Name: " + parent.getFirstName() + parent.getLastName()));
+            document.add(new Paragraph("Full Name: " + parent.getFirstName() + " " + parent.getLastName()));
         document.add(new Paragraph("Phone Number: " + parent.getPhoneNumber()));
         document.add(new Paragraph("Address: " + parent.getAddress()));
     }
@@ -157,7 +157,7 @@ public class DocuViewActivity extends AppCompatActivity {
 
         document.add(Chunk.NEWLINE);
         document.add(new Paragraph("Guardian"));
-        document.add(new Paragraph("Full Name: " + person.getFirstName() + person.getLastName()));
+        document.add(new Paragraph("Full Name: " + person.getFirstName() + " " + person.getLastName()));
         document.add(new Paragraph("Phone Number: " + person.getPhoneNumber()));
         document.add(new Paragraph("Address: " + person.getAddress()));
     }
