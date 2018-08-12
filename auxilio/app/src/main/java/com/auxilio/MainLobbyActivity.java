@@ -9,7 +9,6 @@ import android.widget.Button;
 public class MainLobbyActivity extends AppCompatActivity {
 
     Button notifyRelatives;
-    Button temporaryPassword;
     Button viewAffidivit;
 
     @Override
@@ -18,7 +17,6 @@ public class MainLobbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_lobby);
 
         notifyRelatives = findViewById(R.id.notifi_relatives);
-        temporaryPassword = findViewById(R.id.temp_password);
         viewAffidivit = findViewById(R.id.view_doc);
 
         viewAffidivit.setOnClickListener(

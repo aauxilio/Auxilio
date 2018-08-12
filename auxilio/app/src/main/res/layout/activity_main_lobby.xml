@@ -8,6 +8,15 @@
     tools:context="com.auxilio.MainLobbyActivity">
 
     <Button
+        android:id="@+id/view_doc"
+        android:layout_width="match_parent"
+        android:layout_height="259dp"
+        android:layout_weight="0"
+        android:background="@drawable/ic_launcher_background"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:text="View Affidivit" />
+
+    <Button
         android:id="@+id/notifi_relatives"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,20 +24,4 @@
         android:background="@android:color/holo_red_dark"
         android:text="Notify Relatives" />
 
-    <Button
-        android:id="@+id/temp_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@android:color/holo_blue_light"
-        android:text="Temporary Password" />
-
-    <Button
-        android:id="@+id/view_doc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/ic_launcher_background"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:text="View Affidivit" />
 </LinearLayout>
