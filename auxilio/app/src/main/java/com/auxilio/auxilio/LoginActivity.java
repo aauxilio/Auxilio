@@ -14,22 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import com.auxilio.auxilio.TwilioAPI;
 
 /**
  * A login screen that offers login via email/password.
@@ -42,58 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
-    public static final String ACCOUNT_SID = "ACdf606dffe042a5ab003d42bad07d3784";
-    public static final String AUTH_TOKEN = "992b032ae2243a59c7ddf441ea135601";
-
-    private class Requests extends AsyncTask<URL, Integer, Long> {
-        protected Long doInBackground(URL... urls) {
-
-            String[] numbers = {"+15106480370", "+18188079879"};
-            for(String number : numbers){
-                sendSMS(number);
-            }
-            return new Long(1);
-        }
-
-        public void sendSMS(String number){
-            HttpClient httpclient = new DefaultHttpClient();
-
-            HttpPost httppost = new HttpPost(
-                    "https://api.twilio.com/2010-04-01/Accounts/"+ACCOUNT_SID+"/SMS/Messages");
-            String base64EncodedCredentials = "Basic "
-                    + Base64.encodeToString(
-                    (ACCOUNT_SID + ":" + AUTH_TOKEN).getBytes(),
-                    Base64.NO_WRAP);
-
-            httppost.setHeader("Authorization",
-                    base64EncodedCredentials);
-            try {
-
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("From",
-                        "+18312288938"));
-                nameValuePairs.add(new BasicNameValuePair("To",
-                        number));
-                nameValuePairs.add(new BasicNameValuePair("Body",
-                        "Welcome to Twilio"));
-
-                httppost.setEntity(new UrlEncodedFormEntity(
-                        nameValuePairs));
-
-                // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httppost);
-                HttpEntity entity = response.getEntity();
-                System.out.println("Entity post is: "
-                        + EntityUtils.toString(entity));
-
-
-            } catch (ClientProtocolException e) {
-
-            } catch (IOException e) {
-
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,11 +44,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        new Requests().execute();
+        // new Requests().execute();
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] arr = {"MESSAGEES", "32", "3224", "3242"};
+                new TwilioAPI().execute(arr);
+
+                Intent intent = new Intent(LoginActivity.this, PersonForm.class);
+                startActivity(intent);
+            }
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
 
     private boolean isPasswordValid(String password) {
         return true;
