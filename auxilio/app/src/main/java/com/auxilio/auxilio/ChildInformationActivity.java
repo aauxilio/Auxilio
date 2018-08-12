@@ -30,6 +30,14 @@ public class ChildInformationActivity extends AppCompatActivity {
 
         updateButtons();
 
+        childDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChildInformationActivity.this, DocuViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
         childNextButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
