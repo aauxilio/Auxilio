@@ -3,8 +3,8 @@ package com.auxilio.auxilio;
 import android.os.AsyncTask;
 import android.util.Base64;
 
-import com.auxilio.auxilio.data.AffidivitApplication;
-import com.auxilio.auxilio.data.Person;
+import com.auxilio.data.AffidivitApplication;
+import com.auxilio.data.Person;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

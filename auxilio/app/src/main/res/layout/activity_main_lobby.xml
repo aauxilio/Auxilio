@@ -5,7 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.auxilio.auxilio.MainLobbyActivity">
+    tools:context="com.auxilio.MainLobbyActivity">
+
+    <Button
+        android:id="@+id/view_doc"
+        android:layout_width="match_parent"
+        android:layout_height="259dp"
+        android:layout_weight="0"
+        android:background="@drawable/ic_launcher_background"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:text="Ver Affidavit"
+        android:textSize="20dp"/>
 
     <Button
         android:id="@+id/notifi_relatives"
@@ -14,24 +24,5 @@
         android:layout_weight="1"
         android:background="@android:color/holo_red_dark"
         android:text="Notificar a Familiares"
-        android:textSize="20dp"/>
-
-    <Button
-        android:id="@+id/temp_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@android:color/holo_blue_light"
-        android:text="Contraseña Temporal"
-        android:textSize="20dp"/>
-
-    <Button
-        android:id="@+id/view_doc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/ic_launcher_background"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:text="Ver Affidivit"
         android:textSize="20dp"/>
 </LinearLayout>

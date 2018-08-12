@@ -1,8 +1,4 @@
-package com.auxilio.auxilio.data;
-
-import android.os.Build;
-
-import java.util.zip.CheckedInputStream;
+package com.auxilio.data;
 
 /**
  * Created by ben on 8/11/18.

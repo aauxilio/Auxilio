@@ -1,4 +1,4 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,7 +14,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.auxilio.auxilio.data.AffidivitApplication;
+
+import com.auxilio.data.AffidivitApplication;
 
 /**
  * A login screen that offers login via email/password.

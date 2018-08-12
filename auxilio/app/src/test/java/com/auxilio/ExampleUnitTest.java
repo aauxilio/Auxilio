@@ -1,4 +1,4 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
 import org.junit.Test;
 

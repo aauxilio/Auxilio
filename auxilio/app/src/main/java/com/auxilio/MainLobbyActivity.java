@@ -1,4 +1,4 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,16 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.auxilio.auxilio.data.AffidivitApplication;
-import com.auxilio.auxilio.data.Person;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.auxilio.auxilio.TwilioAPI;
+import com.auxilio.data.AffidivitApplication;
 
 public class MainLobbyActivity extends AppCompatActivity {
 
     Button notifyRelatives;
-    Button temporaryPassword;
     Button viewAffidivit;
 
     @Override
@@ -25,7 +21,6 @@ public class MainLobbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_lobby);
 
         notifyRelatives = findViewById(R.id.notifi_relatives);
-        temporaryPassword = findViewById(R.id.temp_password);
         viewAffidivit = findViewById(R.id.view_doc);
 
         viewAffidivit.setOnClickListener(

@@ -1,22 +1,24 @@
-package com.auxilio.auxilio;
+package com.auxilio;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.auxilio.auxilio.data.AffidivitApplication;
-import com.auxilio.auxilio.data.ChildInformation;
-import com.auxilio.auxilio.data.Person;
+import com.auxilio.data.AffidivitApplication;
+import com.auxilio.data.ChildInformation;
+import com.auxilio.data.Person;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,13 +34,15 @@ public class DocuViewActivity extends AppCompatActivity {
 
     private static final String AUTHORITY="com.commonsware.android.cp.v4file";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docu_view);
 
+        startRetrieveDoc();
+    }
+
+    private void startRetrieveDoc() {
         affidivitApplication = DataUtils.getAffidivitApplication().build();
 
         File f=new File(getFilesDir(), "affidavitFormTemplate.pdf");
@@ -158,6 +162,9 @@ public class DocuViewActivity extends AppCompatActivity {
     }
 
     private void viewPdf(File f) {
+
+        Uri file = Uri.fromFile(f);
+
         Intent i=
                 new Intent(Intent.ACTION_VIEW,
                         FileProvider.getUriForFile(this, AUTHORITY, f));
