@@ -84,7 +84,11 @@ public class PersonForm extends AppCompatActivity {
         } else {
             addRelative.setVisibility(View.VISIBLE);
             addParent.setVisibility(GONE);
-            done.setVisibility(View.VISIBLE);
+            if (DataUtils.getNumOfRelatives() == 0) {
+                done.setVisibility(View.GONE);
+            } else {
+                done.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

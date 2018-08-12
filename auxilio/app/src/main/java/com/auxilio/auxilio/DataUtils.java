@@ -36,6 +36,10 @@ public class DataUtils {
     }
 
     public static void addRelative(Person person) {
+        if (relatives == null) {
+            relatives = new ArrayList<>();
+        }
+
         relatives.add(person);
         numOfRelatives++;
     }
