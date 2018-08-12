@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.auxilio.auxilio.data.AffidivitApplication;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -24,12 +26,15 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    private AffidivitApplication affidivitApplication;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mEmailView = findViewById(R.id.email);
+        affidivitApplication = DataUtils.initDefaults().build();
         mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -45,8 +50,13 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (affidivitApplication != null) {
+                    Intent intent = new Intent(LoginActivity.this, DocuViewActivity.class);
+                    startActivity(intent);
+                } else {
                 Intent intent = new Intent(LoginActivity.this, PersonForm.class);
                 startActivity(intent);
+                }
             }
         });
 

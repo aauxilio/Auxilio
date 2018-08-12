@@ -20,6 +20,18 @@ public class ChildInformation {
         this.dob = builder.dob;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
     public static class Builder {
 
         private String firstName;

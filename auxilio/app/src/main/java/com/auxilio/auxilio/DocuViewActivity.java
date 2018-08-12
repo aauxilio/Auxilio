@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.auxilio.auxilio.data.AffidivitApplication;
+import com.auxilio.auxilio.data.ChildInformation;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -21,12 +23,18 @@ import java.io.OutputStream;
 
 public class DocuViewActivity extends AppCompatActivity {
 
+    private AffidivitApplication affidivitApplication;
+
     private static final String AUTHORITY="com.commonsware.android.cp.v4file";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docu_view);
+
+        affidivitApplication = DataUtils.getAffidivitApplication().build();
 
         File f=new File(getFilesDir(), "affidavitFormTemplate.pdf");
 
@@ -47,7 +55,7 @@ public class DocuViewActivity extends AppCompatActivity {
             PdfWriter.getInstance(document, outputStream);
 
             document.open();
-            document.add(new Paragraph("testing "));
+            setChildInfo(document);
             document.close();
             viewPdf(f);
         } catch (FileNotFoundException e) {
@@ -55,6 +63,13 @@ public class DocuViewActivity extends AppCompatActivity {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setChildInfo(Document document) throws DocumentException {
+        ChildInformation childInformation = affidivitApplication.getChildInformation();
+
+        document.add(new Paragraph("Full Name: " + childInformation.getFirstName() + " " + childInformation.getLastName()));
+        document.add(new Paragraph("DOB: " + childInformation.getDob()));
     }
 
     private void viewPdf(File f) {
