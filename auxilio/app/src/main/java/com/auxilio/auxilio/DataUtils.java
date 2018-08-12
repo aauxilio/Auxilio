@@ -71,7 +71,7 @@ public class DataUtils {
                 .build();
         Person person = new Person.Builder()
                 .address("123 El Camino Real, Los Gatos 90901")
-                .firstName("Carlos")
+                .firstName("Benito")
                 .lastName("Sanchez")
                 .phoneNumber("(831) 898 4932")
                 .build();
@@ -79,16 +79,16 @@ public class DataUtils {
         List<Person> relatives = new ArrayList<>();
         Person person1 = new Person.Builder()
                 .address("1455 Market Street, San Francisco CA")
-                .firstName("Rogelio Sanchez")
-                .lastName("Sanchez")
-                .phoneNumber("(831) 999-1930")
+                .firstName("Jorge")
+                .lastName("Orrantia")
+                .phoneNumber("+15106480370")
                 .build();
 
         Person person2 = new Person.Builder()
                 .address("190 Maple Ave, Greenfield CA 93927")
-                .firstName("Guillermo")
+                .firstName("Jose")
                 .lastName("Sanchez")
-                .phoneNumber("(831) 999-1930")
+                .phoneNumber("+18317768550")
                 .build();
         relatives.add(person1);
         relatives.add(person2);

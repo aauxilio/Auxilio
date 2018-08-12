@@ -2,6 +2,7 @@ package com.auxilio.auxilio;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.util.Log;
 
 import com.auxilio.auxilio.data.AffidivitApplication;
 import com.auxilio.auxilio.data.ChildInformation;
+import com.auxilio.auxilio.data.Person;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 public class DocuViewActivity extends AppCompatActivity {
 
@@ -56,6 +60,9 @@ public class DocuViewActivity extends AppCompatActivity {
 
             document.open();
             setChildInfo(document);
+            setParentInfo(document);
+            addRelatives(document);
+            addMainBody(document);
             document.close();
             viewPdf(f);
         } catch (FileNotFoundException e) {
@@ -65,11 +72,78 @@ public class DocuViewActivity extends AppCompatActivity {
         }
     }
 
+    private void addMainBody(Document document) throws DocumentException {
+
+        Person person = affidivitApplication.getParent();
+        ChildInformation childInformation = affidivitApplication.getChildInformation();
+        if (person == null) {
+            return;
+        }
+
+        document.add(new LineSeparator());
+        document.add(new Paragraph("I, " + person.getFirstName() + person.getLastName() + "hereby declare to take " +
+                "on the full responsibility, guardianship and support for "
+                + childInformation.getFirstName() + childInformation.getLastName()
+                + " (Child's full name) stay in the United State as (her/his) legal guardian and " +
+                "supervisor until the age of eighteen."));
+
+        document.add(new Paragraph("I further declare that all communication and supervision of her stay in the United States shall be my sole\n" +
+                "responsibility"));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph("As guardian, I shall be the primary contact in the United States and shall take all legal and financial\n" +
+                "responsibilities for the supervision of (her/his) stay."));
+
+
+        document.add(new Paragraph("Sincerely,"));
+
+        document.add(new Paragraph(person.getFirstName() + " " + person.getLastName()));
+        document.add(new Paragraph("(Print Name)"));
+
+        document.add(new Paragraph("State of California"));
+        document.add(new Paragraph("County of Monterey"));
+
+    }
+
     private void setChildInfo(Document document) throws DocumentException {
         ChildInformation childInformation = affidivitApplication.getChildInformation();
 
+        document.add(new Paragraph(""));
         document.add(new Paragraph("Full Name: " + childInformation.getFirstName() + " " + childInformation.getLastName()));
         document.add(new Paragraph("DOB: " + childInformation.getDob()));
+    }
+
+    private void setParentInfo(Document document) throws DocumentException {
+        Person parent = affidivitApplication.getParent();
+
+        if (parent == null) {
+            return;
+        }
+
+        document.add(new Paragraph(""));
+        document.add(new Paragraph("Parent"));
+            document.add(new Paragraph("Full Name: " + parent.getFirstName() + parent.getLastName()));
+        document.add(new Paragraph("Phone Number: " + parent.getPhoneNumber()));
+        document.add(new Paragraph("Address: " + parent.getAddress()));
+    }
+
+    private void addRelatives(Document document) throws DocumentException {
+        List<Person> relatives = affidivitApplication.getRelatives();
+        for (Person person : relatives) {
+            addRelative(document, person);
+        }
+    }
+
+    private void addRelative(Document document, @Nullable Person person) throws DocumentException {
+
+        if (person == null) {
+            return;
+        }
+
+        document.add(new Paragraph(""));
+        document.add(new Paragraph("Guardian"));
+        document.add(new Paragraph("Full Name: " + person.getFirstName() + person.getLastName()));
+        document.add(new Paragraph("Phone Number: " + person.getPhoneNumber()));
+        document.add(new Paragraph("Address: " + person.getAddress()));
     }
 
     private void viewPdf(File f) {
