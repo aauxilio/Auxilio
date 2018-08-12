@@ -10,7 +10,9 @@ import java.util.List;
 
 public class DataUtils {
 
+    private static int numOfChildren;
     private static int numOfRelatives;
+    private static List<ChildInformation> childrenInformation;
     private static Person parent;
     private static List<Person> relatives;
 
@@ -25,6 +27,10 @@ public class DataUtils {
             affidivitApplication = new AffidivitApplication.Builder();
         }
         return affidivitApplication;
+    }
+
+    public static int getNumOfChildren() {
+        return numOfChildren;
     }
 
     public static int getNumOfRelatives() {
@@ -46,6 +52,13 @@ public class DataUtils {
 
     public static void addParent(Person person) {
         parent = person;
+    }
+
+    public static void addChild(ChildInformation childInformation) {
+        if (childrenInformation == null) {
+            childrenInformation = new ArrayList<>();
+        }
+        childrenInformation.add(childInformation);
     }
 
     public void initDefaults() {

@@ -45,6 +45,17 @@ public class PersonForm extends AppCompatActivity {
         nextButton = findViewById(R.id.parent_next_button);
         setButtonText();
 
+        done.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(PersonForm.this, ChildInformationActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+        );
+
         nextButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
