@@ -7,21 +7,37 @@ import com.auxilio.auxilio.data.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ben on 8/11/18.
- */
 
 public class DataUtils {
 
-    private static AffidivitApplication affidivitApplication;
+    private static int numOfRelatives;
+    private static Person parent;
+    private static List<Person> relatives;
 
-    private DataUtils() { }
+    private static AffidivitApplication.Builder affidivitApplication;
 
-    public static AffidivitApplication getAffidivitApplication() {
+    private DataUtils() {
+        numOfRelatives = 0;
+    }
+
+    public static AffidivitApplication.Builder getAffidivitApplication() {
         if (affidivitApplication == null) {
-            affidivitApplication = new AffidivitApplication(null);
+            affidivitApplication = new AffidivitApplication.Builder();
         }
         return affidivitApplication;
+    }
+
+    public static int getNumOfRelatives() {
+        return numOfRelatives;
+    }
+
+    public static void addRelative(Person person) {
+        relatives.add(person);
+        numOfRelatives++;
+    }
+
+    public static void addParent(Person person) {
+        parent = person;
     }
 
     public void initDefaults() {
