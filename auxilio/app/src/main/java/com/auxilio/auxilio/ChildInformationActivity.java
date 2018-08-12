@@ -1,5 +1,6 @@
 package com.auxilio.auxilio;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,12 +29,14 @@ public class ChildInformationActivity extends AppCompatActivity {
         dob = findViewById(R.id.child_dob);
 
         updateButtons();
-        
+
         childNextButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         addChild(buildChildInformation());
+                        Intent intent = new Intent(ChildInformationActivity.this, ChildInformationActivity.class);
+                        startActivity(intent);
                     }
                 }
         );
