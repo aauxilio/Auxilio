@@ -22,16 +22,24 @@ public class TwilioAPI extends AsyncTask<String, Integer, Long>{
     public static final String ACCOUNT_SID = "ACdf606dffe042a5ab003d42bad07d3784";
     public static final String AUTH_TOKEN = "992b032ae2243a59c7ddf441ea135601";
     public static final String TWILIO_NUMBER = "+18312288938";
-    protected Long doInBackground(String... digits) {
+    protected Long doInBackground(String... data) {
 
-        String[] numbers = {"+15106480370", "+18188079879"};
-        for(String number : numbers){
-            sendSMS(number);
+        String message = data[0]; //Text message data located on first index
+        int i = 0;
+        for(String number : data){
+            System.out.println(number);
+//            if(i != 0){
+//                sendSMS(number, message);
+//            }
+//            i++;
+            // Escape early if cancel() is called
+            if (isCancelled()) break;
         }
+
         return new Long(1);
     }
 
-    public void sendSMS(String number){
+    public void sendSMS(String number, String message){
         HttpClient httpclient = new DefaultHttpClient();
 
         HttpPost httppost = new HttpPost(
@@ -51,7 +59,7 @@ public class TwilioAPI extends AsyncTask<String, Integer, Long>{
             nameValuePairs.add(new BasicNameValuePair("To",
                     number));
             nameValuePairs.add(new BasicNameValuePair("Body",
-                    "Welcome to Twilio"));
+                    message));
 
             httppost.setEntity(new UrlEncodedFormEntity(
                     nameValuePairs));

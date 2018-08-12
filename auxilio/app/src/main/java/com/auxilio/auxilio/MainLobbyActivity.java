@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.auxilio.auxilio.TwilioAPI;
 
 public class MainLobbyActivity extends AppCompatActivity {
 
@@ -30,5 +33,15 @@ public class MainLobbyActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        notifyRelatives.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String message = "Hola, te quiero avisar que estoy en problemas al momento. Por favor cuida mis hijos! Muchas Gracias";
+
+                new TwilioAPI().execute();
+                Toast.makeText(MainLobbyActivity.this, "Successfully notified relatvies", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
