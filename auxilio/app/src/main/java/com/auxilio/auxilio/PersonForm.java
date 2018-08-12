@@ -12,6 +12,8 @@ import android.widget.Button;
 import com.auxilio.auxilio.data.AffidivitApplication;
 import com.auxilio.auxilio.data.Person;
 
+import static android.view.View.GONE;
+
 public class PersonForm extends AppCompatActivity {
 
     private TextInputEditText firstName;
@@ -19,6 +21,7 @@ public class PersonForm extends AppCompatActivity {
     private TextInputEditText phoneNumber;
     private TextInputEditText address;
     private Button nextButton;
+    private Button done;
 
 
     private AffidivitApplication.Builder affidivitApplication;
@@ -32,9 +35,10 @@ public class PersonForm extends AppCompatActivity {
         lastName = findViewById(R.id.parents_last_name);
         phoneNumber = findViewById(R.id.parent_phone);
         address = findViewById(R.id.parent_address);
+        done = findViewById(R.id.parent_done_button);
 
         nextButton = findViewById(R.id.parent_next_button);
-
+        setButtonText();
 
         nextButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -67,10 +71,12 @@ public class PersonForm extends AppCompatActivity {
     }
 
     private void setButtonText() {
-        if (DataUtils.getNumOfRelatives() > 1) {
-            nextButton.setText("Next Relative");
-        } else {
+        if (DataUtils.getNumOfRelatives() == 0) {
             nextButton.setText("Add Relatives");
+            done.setVisibility(GONE);
+        } else {
+            nextButton.setText("Next Relative");
+            done.setVisibility(View.VISIBLE);
         }
     }
 }
