@@ -11,6 +11,7 @@ import android.util.Log;
 import com.auxilio.auxilio.data.AffidivitApplication;
 import com.auxilio.auxilio.data.ChildInformation;
 import com.auxilio.auxilio.data.Person;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -80,24 +81,35 @@ public class DocuViewActivity extends AppCompatActivity {
             return;
         }
 
-        document.add(new LineSeparator());
-        document.add(new Paragraph("I, " + person.getFirstName() + person.getLastName() + "hereby declare to take " +
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
+
+        document.add(new Paragraph("I, " + person.getFirstName() + " " + person.getLastName() + " hereby declare to take " +
                 "on the full responsibility, guardianship and support for "
-                + childInformation.getFirstName() + childInformation.getLastName()
+                + childInformation.getFirstName() + " " + childInformation.getLastName()
                 + " (Child's full name) stay in the United State as (her/his) legal guardian and " +
                 "supervisor until the age of eighteen."));
 
-        document.add(new Paragraph("I further declare that all communication and supervision of her stay in the United States shall be my sole\n" +
+        document.add(Chunk.NEWLINE);
+
+        document.add(new Paragraph("I further declare that all communication and supervision of her stay in the United States shall be my sole" +
                 "responsibility"));
-        document.add(new Paragraph(""));
-        document.add(new Paragraph("As guardian, I shall be the primary contact in the United States and shall take all legal and financial\n" +
+
+        document.add(Chunk.NEWLINE);
+        document.add(new Paragraph("As guardian, I shall be the primary contact in the United States and shall take all legal and financial" +
                 "responsibilities for the supervision of (her/his) stay."));
 
 
         document.add(new Paragraph("Sincerely,"));
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
 
         document.add(new Paragraph(person.getFirstName() + " " + person.getLastName()));
         document.add(new Paragraph("(Print Name)"));
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
 
         document.add(new Paragraph("State of California"));
         document.add(new Paragraph("County of Monterey"));
@@ -107,7 +119,7 @@ public class DocuViewActivity extends AppCompatActivity {
     private void setChildInfo(Document document) throws DocumentException {
         ChildInformation childInformation = affidivitApplication.getChildInformation();
 
-        document.add(new Paragraph(""));
+        document.add(Chunk.NEWLINE);
         document.add(new Paragraph("Full Name: " + childInformation.getFirstName() + " " + childInformation.getLastName()));
         document.add(new Paragraph("DOB: " + childInformation.getDob()));
     }
@@ -119,7 +131,7 @@ public class DocuViewActivity extends AppCompatActivity {
             return;
         }
 
-        document.add(new Paragraph(""));
+        document.add(Chunk.NEWLINE);
         document.add(new Paragraph("Parent"));
             document.add(new Paragraph("Full Name: " + parent.getFirstName() + parent.getLastName()));
         document.add(new Paragraph("Phone Number: " + parent.getPhoneNumber()));
@@ -139,7 +151,7 @@ public class DocuViewActivity extends AppCompatActivity {
             return;
         }
 
-        document.add(new Paragraph(""));
+        document.add(Chunk.NEWLINE);
         document.add(new Paragraph("Guardian"));
         document.add(new Paragraph("Full Name: " + person.getFirstName() + person.getLastName()));
         document.add(new Paragraph("Phone Number: " + person.getPhoneNumber()));
