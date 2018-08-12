@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.auxilio.auxilio.TwilioAPI;
+import com.auxilio.data.AffidivitApplication;
 
 public class MainLobbyActivity extends AppCompatActivity {
 
@@ -28,5 +32,17 @@ public class MainLobbyActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        notifyRelatives.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                AffidivitApplication application= DataUtils.getAffidivitApplication().build();
+                new TwilioAPI().execute(application);
+                Toast.makeText(MainLobbyActivity.this, "Parientes notificados", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
+
 }
