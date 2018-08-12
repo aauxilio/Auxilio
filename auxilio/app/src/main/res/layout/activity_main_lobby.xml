@@ -14,7 +14,7 @@
         android:layout_weight="0"
         android:background="@drawable/ic_launcher_background"
         android:backgroundTint="@android:color/holo_green_dark"
-        android:text="View Affidivit" />
+        android:text="View Affidavit" />
 
     <Button
         android:id="@+id/notifi_relatives"
