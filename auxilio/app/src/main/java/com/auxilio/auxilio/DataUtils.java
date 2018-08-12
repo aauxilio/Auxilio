@@ -59,6 +59,7 @@ public class DataUtils {
             childrenInformation = new ArrayList<>();
         }
         childrenInformation.add(childInformation);
+        numOfChildren++;
     }
 
     public void initDefaults() {
