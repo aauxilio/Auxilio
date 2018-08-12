@@ -77,9 +77,10 @@ public class DataUtils {
                 .build();
 
         List<Person> relatives = new ArrayList<>();
+
         Person person1 = new Person.Builder()
                 .address("1455 Market Street, San Francisco CA")
-                .firstName("Jorge")
+                .firstName("Lloyd")
                 .lastName("Orrantia")
                 .phoneNumber("+15106480370")
                 .build();
@@ -90,8 +91,17 @@ public class DataUtils {
                 .lastName("Sanchez")
                 .phoneNumber("+18317768550")
                 .build();
+
+        Person person3 = new Person.Builder()
+                .address("1875 Laguna Street, San Francisco CA")
+                .firstName("Jorge")
+                .lastName("Orrantia")
+                .phoneNumber("+18188079879")
+                .build();
+
         relatives.add(person1);
         relatives.add(person2);
+        relatives.add(person3);
 
         affidivitApplication = new AffidivitApplication.Builder()
                 .childInformation(childInformation)
