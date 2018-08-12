@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (affidivitApplication != null) {
-                    Intent intent = new Intent(LoginActivity.this, DocuViewActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainLobbyActivity.class);
                     startActivity(intent);
                 } else {
                 Intent intent = new Intent(LoginActivity.this, PersonForm.class);

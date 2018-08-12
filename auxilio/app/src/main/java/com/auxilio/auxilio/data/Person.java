@@ -17,6 +17,22 @@ public class Person {
         this.address = builder.address;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     public static class Builder {
 
         private String firstName;
