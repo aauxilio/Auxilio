@@ -7,10 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class DocuViewActivity extends AppCompatActivity {
 
@@ -21,19 +28,36 @@ public class DocuViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docu_view);
 
-        File f=new File(getFilesDir(), "test.pdf");
+        File f=new File(getFilesDir(), "affidavitFormTemplate.pdf");
 
         if (!f.exists()) {
             AssetManager assets=getAssets();
 
             try {
-                copy(assets.open("test.pdf"), f);
+                copy(assets.open("affidavitFormTemplate.pdf"), f);
             }
             catch (IOException e) {
                 Log.e("FileProvider", "Exception copying from assets", e);
             }
         }
 
+        try {
+            OutputStream outputStream = new FileOutputStream(f);
+            Document document = new Document();
+            PdfWriter.getInstance(document, outputStream);
+
+            document.open();
+            document.add(new Paragraph("testing "));
+            document.close();
+            viewPdf(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void viewPdf(File f) {
         Intent i=
                 new Intent(Intent.ACTION_VIEW,
                         FileProvider.getUriForFile(this, AUTHORITY, f));
@@ -43,7 +67,6 @@ public class DocuViewActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 
     static private void copy(InputStream in, File dst) throws IOException {
         FileOutputStream out=new FileOutputStream(dst);
