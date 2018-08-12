@@ -62,7 +62,7 @@ public class DataUtils {
         numOfChildren++;
     }
 
-    public void initDefaults() {
+    public static AffidivitApplication.Builder initDefaults() {
 
         ChildInformation childInformation = new ChildInformation.Builder()
                 .dob("2/15/1990")
@@ -93,10 +93,11 @@ public class DataUtils {
         relatives.add(person1);
         relatives.add(person2);
 
-        AffidivitApplication builder = new AffidivitApplication.Builder()
+        affidivitApplication = new AffidivitApplication.Builder()
                 .childInformation(childInformation)
                 .parent(person)
-                .relatives(relatives)
-                .build();
+                .relatives(relatives);
+
+        return affidivitApplication;
     }
 }
