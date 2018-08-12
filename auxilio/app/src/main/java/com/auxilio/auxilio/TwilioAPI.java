@@ -25,7 +25,7 @@ public class TwilioAPI extends AsyncTask<AffidivitApplication, Integer, Long>{
     private final String ACCOUNT_SID = "ACdf606dffe042a5ab003d42bad07d3784";
     private final String AUTH_TOKEN = "992b032ae2243a59c7ddf441ea135601";
     private final String TWILIO_NUMBER = "+18312288938";
-    private String message = "%s, soy %s. Halgo me va a pasar, por favor cuida mis hijos";
+    private String message = "%s, soy %s. Halgo me va a pasar, por favor cuida mis hijos. https://tinyurl.com/ydergcz7";
 
     protected Long doInBackground(AffidivitApplication... app) {
 
