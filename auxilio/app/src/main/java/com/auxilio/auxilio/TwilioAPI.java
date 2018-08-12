@@ -3,6 +3,9 @@ package com.auxilio.auxilio;
 import android.os.AsyncTask;
 import android.util.Base64;
 
+import com.auxilio.auxilio.data.AffidivitApplication;
+import com.auxilio.auxilio.data.Person;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,22 +21,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TwilioAPI extends AsyncTask<String, Integer, Long>{
-    public static final String ACCOUNT_SID = "ACdf606dffe042a5ab003d42bad07d3784";
-    public static final String AUTH_TOKEN = "992b032ae2243a59c7ddf441ea135601";
-    public static final String TWILIO_NUMBER = "+18312288938";
-    protected Long doInBackground(String... data) {
+public class TwilioAPI extends AsyncTask<AffidivitApplication, Integer, Long>{
+    private final String ACCOUNT_SID = "ACdf606dffe042a5ab003d42bad07d3784";
+    private final String AUTH_TOKEN = "992b032ae2243a59c7ddf441ea135601";
+    private final String TWILIO_NUMBER = "+18312288938";
+    private String message = "%s, soy %s. Halgo me va a pasar, por favor cuida mis hijos";
 
-        String message = data[0]; //Text message data located on first index
-        int i = 0;
-        for(String number : data){
-            System.out.println(number);
-//            if(i != 0){
-//                sendSMS(number, message);
-//            }
-//            i++;
-            // Escape early if cancel() is called
-            if (isCancelled()) break;
+    protected Long doInBackground(AffidivitApplication... app) {
+
+        List<Person> relatives = app[0].getRelatives();
+        String parentname = app[0].getParent().getFirstName() + " " + app[0].getParent().getLastName();
+
+        for(Person relative : relatives){
+            String number = relative.getPhoneNumber();
+            String fullname = relative.getFirstName();
+            sendSMS(number, String.format(message, fullname, parentname));
         }
 
         return new Long(1);
