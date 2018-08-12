@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DataUtils {
 
-    public static AffidivitApplication affidivitApplication;
+    private static AffidivitApplication affidivitApplication;
 
     private DataUtils() { }
 
