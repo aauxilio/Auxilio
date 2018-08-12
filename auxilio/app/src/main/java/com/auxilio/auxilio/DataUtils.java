@@ -31,6 +31,10 @@ public class DataUtils {
         return numOfRelatives;
     }
 
+    public static Person getParent() {
+        return parent;
+    }
+
     public static void addRelative(Person person) {
         relatives.add(person);
         numOfRelatives++;

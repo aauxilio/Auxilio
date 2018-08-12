@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.auxilio.auxilio.data.AffidivitApplication;
 import com.auxilio.auxilio.data.Person;
@@ -20,6 +21,8 @@ public class PersonForm extends AppCompatActivity {
     private TextInputEditText lastName;
     private TextInputEditText phoneNumber;
     private TextInputEditText address;
+    private TextView addParent;
+    private TextView addRelative;
     private Button nextButton;
     private Button done;
 
@@ -31,6 +34,8 @@ public class PersonForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_form);
         affidivitApplication = DataUtils.getAffidivitApplication();
+        addParent = findViewById(R.id.parent_add_parent);
+        addRelative = findViewById(R.id.parent_add_relative);
         firstName = findViewById(R.id.parent_first_name);
         lastName = findViewById(R.id.parents_last_name);
         phoneNumber = findViewById(R.id.parent_phone);
@@ -63,19 +68,22 @@ public class PersonForm extends AppCompatActivity {
     }
 
     private void addPerson(Person person) {
-        if (DataUtils.getNumOfRelatives() > 0) {
-            DataUtils.addRelative(person);
-        } else {
+        if (DataUtils.getParent() == null) {
             DataUtils.addParent(person);
+            return;
+        } else {
+            DataUtils.addRelative(person);
         }
     }
 
     private void setButtonText() {
-        if (DataUtils.getNumOfRelatives() == 0) {
-            nextButton.setText("Add Relatives");
-            done.setVisibility(GONE);
+        if (DataUtils.getParent() == null) {
+            addParent.setVisibility(View.VISIBLE);
+            addRelative.setVisibility(GONE);
+            done.setVisibility(View.GONE);
         } else {
-            nextButton.setText("Next Relative");
+            addRelative.setVisibility(View.VISIBLE);
+            addParent.setVisibility(GONE);
             done.setVisibility(View.VISIBLE);
         }
     }
