@@ -6,6 +6,6 @@
 
 # Your Help in Times of Crisis
 
-* Help is an app that helps you in times of crisis using various functions to keep families together.
+* Auxilio is an app that helps you in times of crisis using various functions to keep families together.
 
 * Auxilio intervenes before children are sent to foster care by generating legal documents and notifying relatives in context of family separation.
