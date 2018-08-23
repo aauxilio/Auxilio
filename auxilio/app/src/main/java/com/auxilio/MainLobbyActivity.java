@@ -19,12 +19,16 @@ public class MainLobbyActivity extends AppCompatActivity {
     Button notifyRelatives;
     Button viewAffidivit;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    SMS message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_lobby);
         checkForPermissions();
+        message = new SMS(getBaseContext());
+        message.registerReceivers();
+
 
         notifyRelatives = findViewById(R.id.notifi_relatives);
         viewAffidivit = findViewById(R.id.view_doc);
@@ -46,14 +50,8 @@ public class MainLobbyActivity extends AppCompatActivity {
 //                new TwilioAPI().execute(application);
 //                Toast.makeText(MainLobbyActivity.this, "Parientes notificados", Toast.LENGTH_SHORT).show();
 
-                String sms = "This is going to be a really long message and it will take some time to get there,  This is going to be a really long message and it will take some time to get there";
-
-                SMS message = new SMS(getApplicationContext());
-                message.sendSMS("8317760235",  sms);
-
-
-
-
+                String sms = "this is going to be around 160 chars. testing. this is going to be around 160 chars. testing.this is going to be around 160 chars. testing.this is going to be .";
+                message.sendSMS("4159881453",  sms);
             }
         });
     }
@@ -73,4 +71,10 @@ public class MainLobbyActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        message.unRegisterReceivers();
+        super.onDestroy();
+    }
 }
