@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
     Created by: Dario Molina
@@ -22,6 +24,7 @@ public class SMS
     private BroadcastReceiver messageSendReceiver, messageDeliveredReceiver;
     private final String SENT = "SMS_SENT";
     private final String DELIVERED = "SMS_DELIVERED";
+    private static final int SMS_MAX_LENGTH = 160;
 
     public SMS(Context context)
     {
@@ -39,7 +42,6 @@ public class SMS
                 {
                     case Activity.RESULT_OK:
                         Toast.makeText(applicationContext, "SMS Sent", Toast.LENGTH_SHORT).show();
-                        Log.d("RESULT OK", "SMS SENT!!!!!!!");
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(applicationContext, "Generic Failure. Please Try Again.", Toast.LENGTH_SHORT).show();
@@ -80,8 +82,13 @@ public class SMS
     {
         PendingIntent sentPI = PendingIntent.getBroadcast(applicationContext, 0, new Intent(SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(applicationContext, 0, new Intent(DELIVERED), 0);
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+        SmsManager smsManager = SmsManager.getDefault();
+
+        if(message.length() > SMS_MAX_LENGTH)
+            smsManager.sendMultipartTextMessage(phoneNumber, null,smsManager.divideMessage(message), new ArrayList<>(Arrays.asList(sentPI)), new ArrayList<>(Arrays.asList(deliveredPI)));
+
+        else
+            smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
     }
 
     public void unRegisterReceivers()
