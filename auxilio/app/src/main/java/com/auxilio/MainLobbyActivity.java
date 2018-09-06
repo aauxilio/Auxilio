@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.auxilio.auxilio.SMS;
 import com.auxilio.data.AffidivitApplication;
 
@@ -56,7 +58,7 @@ public class MainLobbyActivity extends AppCompatActivity {
                         " per message. The max number of chars that is allowed to send in an sms is 918." +
                         "  If a message is > 160 chars it will break down the message into batches of 158 chars, and the last" +
                         " batch being how ever many chars are left. If a message is <= 160, it will only send that one single batch.";
-                message.sendSMS("Phone # to send sms",  sms);
+                message.sendSMS("4159881453",  sms);
             }
         });
     }
@@ -92,7 +94,9 @@ public class MainLobbyActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        Toast.makeText(this, "Inside onRequestPermissionResult", Toast.LENGTH_LONG).show();
         if (requestCode == PERMISSION_SMS_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
@@ -108,6 +112,12 @@ public class MainLobbyActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        checkForPermissions();
+    }
     @Override
     protected void onDestroy()
     {
