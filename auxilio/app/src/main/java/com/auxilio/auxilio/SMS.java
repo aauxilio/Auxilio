@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class SMS
 
     private Context applicationContext;
     private BroadcastReceiver messageSendReceiver, messageDeliveredReceiver;
-    private final String SENT = "SMS_SENT";
+    private final String SEND = "SMS_SEND";
     private final String DELIVERED = "SMS_DELIVERED";
     private static final int SMS_MAX_LENGTH = 160;
 
@@ -41,19 +42,25 @@ public class SMS
                 switch (getResultCode())
                 {
                     case Activity.RESULT_OK:
-                        Toast.makeText(applicationContext, "SMS Sent", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "SMS has been sent.");
+                        Toast.makeText(applicationContext, "Mensaje de texto a sido enviado.", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(applicationContext, "Generic Failure. Please Try Again.", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "Generic Test failure. SMS not send.");
+                        Toast.makeText(applicationContext, "Mensaje de texto no fue enviado. Porfavor intente de nuevo.", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(applicationContext, "No Service", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "No Service.  SMS not send.");
+                        Toast.makeText(applicationContext, "Sin Servicio, mensaje de Texto no fue enviado.", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(applicationContext, "Null PDU. Please Try Again.", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "Null PDU. SMS not send.");
+                        Toast.makeText(applicationContext, "Mensaje de texto no fue enviado.  Porfavor intente de nuevo.", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(applicationContext, "Airplane Mode ON. Check Connection. SMS Not Send.", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "Error Radio off");
+                        Toast.makeText(applicationContext, "Sin coneccion a wifi. Si esta conectado," +
+                                " asegurese que pueda mandar mensajes por wifi.", Toast.LENGTH_LONG).show();
                         break;
                 }
             }
@@ -65,34 +72,41 @@ public class SMS
                 switch (getResultCode())
                 {
                     case Activity.RESULT_OK:
-                        Toast.makeText(applicationContext, "SMS Delivered", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "SMS delivered");
+                        Toast.makeText(applicationContext, "Su contacto a recibido su mensaje de texto.", Toast.LENGTH_SHORT).show();
                         break;
                     case Activity.RESULT_CANCELED:
-                        Toast.makeText(applicationContext, "SMS Not Delivered", Toast.LENGTH_SHORT).show();
+                        Log.d("registerRecievers", "SMS not delivered");
+                        Toast.makeText(applicationContext, "Su contacto no pudo recibir su mensaje de texto.", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         };
 
-        applicationContext.registerReceiver(messageSendReceiver, new IntentFilter(SENT));
+        applicationContext.registerReceiver(messageSendReceiver, new IntentFilter(SEND));
         applicationContext.registerReceiver(messageDeliveredReceiver , new IntentFilter(DELIVERED));
     }
 
     public void sendSMS(String phoneNumber, String message)
     {
-        PendingIntent sentPI = PendingIntent.getBroadcast(applicationContext, 0, new Intent(SENT), 0);
+        Log.d("sendSMS", "registering pending intents for sms send and  sms delivered.");
+        PendingIntent sentPI = PendingIntent.getBroadcast(applicationContext, 0, new Intent(SEND), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(applicationContext, 0, new Intent(DELIVERED), 0);
         SmsManager smsManager = SmsManager.getDefault();
 
-        if(message.length() > SMS_MAX_LENGTH)
-            smsManager.sendMultipartTextMessage(phoneNumber, null,smsManager.divideMessage(message), new ArrayList<>(Arrays.asList(sentPI)), new ArrayList<>(Arrays.asList(deliveredPI)));
-
-        else
+        if(message.length() > SMS_MAX_LENGTH) {
+            Log.d("sendSMS", "sms > 160 chars.");
+            smsManager.sendMultipartTextMessage(phoneNumber, null, smsManager.divideMessage(message), new ArrayList<>(Arrays.asList(sentPI)), new ArrayList<>(Arrays.asList(deliveredPI)));
+        }
+        else {
+            Log.d("sendSMS", "sms <= 160 chars.");
             smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+        }
     }
 
     public void unRegisterReceivers()
     {
+        Log.d("unRegisterReceivers", "unregistering receivers for sms.");
         applicationContext.unregisterReceiver(messageSendReceiver);
         applicationContext.unregisterReceiver(messageDeliveredReceiver);
     }

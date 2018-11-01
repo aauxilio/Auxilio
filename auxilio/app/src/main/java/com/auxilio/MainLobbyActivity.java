@@ -14,24 +14,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import com.auxilio.auxilio.SMS;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainLobbyActivity extends AppCompatActivity {
 
     Button notifyRelatives;
     Button viewAffidivit;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    HashMap<String, Integer> perms;
     SMS message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_lobby);
+        perms = new HashMap<>();
+        perms.put(Manifest.permission.SEND_SMS, PackageManager.PERMISSION_GRANTED);
+        perms.put(Manifest.permission.READ_CONTACTS, PackageManager.PERMISSION_GRANTED);
         checkAndRequestPermissions();
         message = new SMS(getBaseContext());
         message.registerReceivers();
@@ -43,6 +44,7 @@ public class MainLobbyActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("viewAffidivit", "Opening affidivit.");
                         Intent intent = new Intent(MainLobbyActivity.this, DocuViewActivity.class);
                         startActivity(intent);
                     }
@@ -57,46 +59,46 @@ public class MainLobbyActivity extends AppCompatActivity {
                         " per message. The max number of chars that is allowed to send in an sms is 918." +
                         "  If a message is > 160 chars it will break down the message into batches of 158 chars, and the last" +
                         " batch being how ever many chars are left. If a message is <= 160, it will only send that one single batch.";
-                message.sendSMS("4159881453",  sms);
+                Log.d("notifyRelatiesEvent", "Sending Text Message");
+                message.sendSMS("Phone # to send sms", sms);
             }
         });
     }
 
     private  void checkAndRequestPermissions() {
+        Log.d("check&RequestPermission", "checking the state of each permission.");
         int smsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
         int contactsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
 
-        List<String> permissionsNeeded = new ArrayList<>();
+        ArrayList<String> permissionsNeeded = new ArrayList<>();
         if (contactsPermission != PackageManager.PERMISSION_GRANTED)
             permissionsNeeded.add(Manifest.permission.READ_CONTACTS);
 
         if (smsPermission != PackageManager.PERMISSION_GRANTED)
             permissionsNeeded.add(Manifest.permission.SEND_SMS);
 
-        if (!permissionsNeeded.isEmpty())
-            ActivityCompat.requestPermissions(this, permissionsNeeded.toArray(new String[permissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+        if (!permissionsNeeded.isEmpty()) {
+            Log.d("check&RequestPermission", "requesting permission");
+            ActivityCompat.requestPermissions(this, permissionsNeeded.toArray(new String[permissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.d("ONREQUESTPERMISSION", "Permission callback called-------");
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
-
-                Map<String, Integer> perms = new HashMap<>();
-
                 if (grantResults.length > 0) {
+                    Log.d("RequestPermissionResult", "grantResults array contains elements.");
                     for (int i = 0; i < permissions.length; i++)
                         perms.put(permissions[i], grantResults[i]);
 
                     if (perms.get(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-
-                        Log.d("ONREQUESTPERMISSION", "Some permissions are not granted ask again ");
-                        Toast.makeText(this, "One of the permissions wasn't granted!", Toast.LENGTH_LONG).show();
+                            || perms.get(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                        Log.d("RequestPermissionResult", "One or both permissions are not granted.");
 
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
-                            showDialogOK("SMS and Contact permission required for this app",
+                            Log.d("RequestPermissionResult", "Displaying alert dialog for requesting permissions.");
+                            showDialogOK("Permiso para leer contactos y mandar mensages son necesarios para utilizar la aplicacion.",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -109,7 +111,7 @@ public class MainLobbyActivity extends AppCompatActivity {
                                     });
                         }
                         else {
-                            Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
+                            Log.d("RequestPermissionResult", "Opening app setttings to manually enable permissions.");
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             Uri uri = Uri.fromParts("package", getPackageName(), null);
                             intent.setData(uri);
